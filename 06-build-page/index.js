@@ -130,7 +130,6 @@ fs.readFile(path.join(notesDir, 'components', part), 'utf-8' ,(err, data) => {
         fs.appendFile(path.join(notesDir, 'project-dist', 'index.html'), data, (err) => {
             if(err) throw err;
         });
-
     } else {
         console.error(err);
         }
@@ -139,16 +138,18 @@ fs.readFile(path.join(notesDir, 'components', part), 'utf-8' ,(err, data) => {
 
 addHtml('part0.html');
 addHtml('header.html');
-addHtml('part1.html');
+addHtml('part1.html', 'part1.html');
 addHtml('articles.html');
-addHtml('part2.html');
+addHtml('part2.html', 'part2.html');
 addHtml('footer.html');
-addHtml('part3.html');
+addHtml('part3.html', 'part3.html');
 
-fs.unlink(path.join(notesDir, 'components', 'part1.html'), (err) => {
-    if (err) throw err;
+function deleteFile(part){
+    fs.unlink(path.join(notesDir, 'components', part), (err) => {
+        if (err) throw err;
 })
+}
 
-// deleteFile('06-build-page/components/part0.html');
-// deleteFile(path.join(notesDir, 'components', 'part1.html'));
-// deleteFile(path.join(notesDir, 'components', 'part2.html'));
+deleteFile('part0.html');
+deleteFile('part1.html');
+deleteFile('part2.html');
