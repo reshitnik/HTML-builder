@@ -19,11 +19,7 @@ function readCss (way) {
         fs.appendFile(path.join(notesDir, 'project-dist', 'bundle.css'), `${data} \n`, (err) => {
             if(err) throw err;
           });
-        // arr.push(data)
-        // return arr;
     })
-    
-
 }
 
 fs.writeFile(path.join(notesDir, 'project-dist', 'bundle.css'), '', (err) => {
