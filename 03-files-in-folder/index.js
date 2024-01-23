@@ -14,7 +14,7 @@ fs.readdir(notes, {withFileTypes: true}, (err, fileList) => {
                     console.error('Eror')
                 }
                 if (stats.isFile()) {
-                    console.log(`${path.basename(file.name, path.extname(file.name))} - ${path.extname(file.name)} - ${stats['size']}kb`);
+                    console.log(`${path.basename(file.name, path.extname(file.name))} - ${path.extname(file.name)} - ${stats['size']}b`);
                 }
             })
         });
