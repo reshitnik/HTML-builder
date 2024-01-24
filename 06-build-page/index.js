@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('node:path')
 const notes = '06-build-page/index.js';
 const notesDir = path.dirname(notes);
+// const notesDir = path.join(__dirname);
 const notesFile = path.basename(notes);
 const myPath = path.join(notesDir, notesFile);
 const stylePath = path.join(notesDir, 'styles')
@@ -35,8 +36,6 @@ fs.mkdir(path.join(notesDir, 'project-dist'),
             });
 
     });
-
-    // readAll(path.join(notesDir, 'assets'));
 
 // 2. создание папок функция
 function createFolders(pathWay){
@@ -117,32 +116,23 @@ fs.readFile(path.join(notesDir, 'template.html'), 'utf-8', (err, data) =>{
         console.err(err)
     }
     let text = data;
-    const header = text.match('{{header}}')[0]; 
-    const footer = text.match('{{footer}}')[0]; 
-    const articles = text.match('{{articles}}')[0]; 
-
-    fs.readdir(path.join(notesDir, 'components'), (err, htmlList) => {
+    let tags = text.match(/{{[a-z]+}}/g);
+    tags = tags.map((tag) => tag.match(/\w+/g)[0]);
+    fs.readdir(path.join(notesDir, 'components'), { withFileTypes: true }, (err, htmlList) => {
         if (err) {
             console.err(err)
-        }
-        htmlList.forEach(html => {
-            fs.readFile(path.join(notesDir, 'components', html), 'utf-8', (err, htmlText) => {
-                if (err) {console.err(err)} else{;
-                if (html.replace('.html','') == 'header') {
-                    text = text.replace(header, htmlText)
-                };
-                if (html.replace('.html','') == 'footer') {
-                    text = text.replace(footer, htmlText)
-                };
-                if (html.replace('.html','') == 'articles') {
-                    text = text.replace(articles, htmlText)
-                }
-                }
+        } else {
+        htmlList.forEach((html) => {
+            console.log('aaaaaaaaaaaa', html.name)
+            if (tags.includes(html.name.replace('.html', ''))) {
+              const reader = fs.createReadStream(path.join(notesDir, 'components', html.name), {encoding: 'utf8'},);
+              reader.on('data', (text2) => {
+                text = text.replace(`{{${html.name.replace('.html', '')}}}`, `${text2}`);
                 fs.writeFile(path.join(notesDir, 'project-dist', 'index.html'), text, (err) =>{
                     if (err) {console.log(error)}
                 })
             })
-        })
-    })
+        }})
+    }})
 })
 
