@@ -117,9 +117,9 @@ fs.readFile(path.join(notesDir, 'template.html'), 'utf-8', (err, data) =>{
         console.err(err)
     }
     let text = data;
-    let header = data.match('{{header}}')[0]; 
-    let footer = data.match('{{footer}}')[0]; 
-    let articles = data.match('{{articles}}')[0]; 
+    const header = text.match('{{header}}')[0]; 
+    const footer = text.match('{{footer}}')[0]; 
+    const articles = text.match('{{articles}}')[0]; 
 
     fs.readdir(path.join(notesDir, 'components'), (err, htmlList) => {
         if (err) {

@@ -1,3 +1,4 @@
+const { error } = require('console');
 const fs = require('fs');
 const path = require('node:path')
 const notes = '04-copy-directory/index.js';
@@ -13,6 +14,16 @@ fs.mkdir(path.join(notesDir, 'files-copy'),
         }
         console.log('Directory created successfully!');
     });
+
+fs.readdir(path.join(notesDir, 'files-copy'), (err, fileList) =>{
+    if (!err) {
+        fileList.forEach(file => {
+            fs.unlink(path.join(__dirname, 'files-copy', file), (err) => {
+                if(err) {console.error(err)}
+            })
+        })
+    }
+})
 
 fs.readdir(path.join(notesDir, 'files'), (err, fileList) => {
     if (!err) {
